@@ -19,11 +19,16 @@
             height: 480px;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
     <h2>Click Start to open camera and start plant detection</h2>
     <button id="startBtn">Start Detect</button>
+    <br><br>
+    <input type="text" id="ipServerUrl" placeholder="Enter Server IP (e.g., http://192.168.1.10:5000)"
+        style="width: 400px;" />
+    <button type="submit" id="ipServerBtn" onclick="clickServerBtn()">Use Server IP</button>
     <br>
 
     <div id="container">
@@ -71,6 +76,23 @@
                 console.error(e);
             }
         };
+
+        function clickServerBtn() {
+            let ipServerUrl = document.getElementById("ipServerUrl");
+            if (ipServerUrl.value === "") {
+                setTimeout(() => {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Server IP Must Not Be Empty',
+                        showConfirmButton: false,
+                        timer: 1200
+                    });
+                }, 500);
+            } else {
+                baseURL = ipServerUrl.value;
+            }
+        }
 
         async function detectFrame() {
             if (!detecting) return;
